@@ -53,7 +53,20 @@ def go(config: DictConfig):
             ##################
             # Implement here #
             ##################
-            pass
+            
+            # Clean the downloaded data
+            _ = mlflow.run(
+                f"{config['main']['components_repository']}/get_data",
+                "main",
+                version='main',
+                parameters={
+                    "sample": config["etl"]["sample"],
+                    "artifact_name": "sample.csv",
+                    "artifact_type": "raw_data",
+                    "artifact_description": "Raw file as downloaded"
+                },
+            )
+
 
         if "data_check" in active_steps:
             ##################
