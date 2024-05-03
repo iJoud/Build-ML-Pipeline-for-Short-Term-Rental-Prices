@@ -104,7 +104,7 @@ def go(config: DictConfig):
             # step
 
             _ = mlflow.run(
-                os.path.join(root_path, "src", "train_random_forest"), 
+                os.path.join(root_path, "src", "train_random_forest"),
                 "main",
                 parameters={
                     "trainval_artifact": "trainval_data.csv:latest",
@@ -118,12 +118,14 @@ def go(config: DictConfig):
             )
 
         if "test_regression_model" in active_steps:
-
-            ##################
-            # Implement here #
-            ##################
-
-            pass
+            _ = mlflow.run(
+                f"{config['main']['components_repository']}/test_regression_model",
+                "main",
+                parameters={
+                    "mlflow_model": "random_forest_export:prod",
+                    "test_dataset": "test_data.csv:latest"
+                },
+            )
 
 
 if __name__ == "__main__":
